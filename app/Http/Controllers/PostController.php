@@ -10,9 +10,23 @@ class PostController extends Controller
 {
     public function __construct()
     {
-      $this->middleware('auth', ['except' => ['show']]);
+      $this->middleware('auth', ['except' => ['show','search', 'searchjs']]);
     }
 
+    public function search(Request $request) {
+
+      $results = [];
+
+      if($request->has('q')){
+        $request->flashOnly('q');
+        $results = Post::search($request->q)->paginate(10);
+      }
+      return view('posts.search')->with('results', $results);
+    }
+
+    public function searchjs(Request $request) {
+      return view('posts.searchjs');
+    }
     /**
      * Display a listing of the resource.
      *
