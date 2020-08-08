@@ -14,3 +14,11 @@
 Broadcast::channel('App.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
+
+Broadcast::channel('posts.{id}', function ($user, $id) {
+    return [
+        'id' => $user->id,
+        'name' => $user->name,
+        'email' => $user->email
+    ];
+});
